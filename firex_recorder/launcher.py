@@ -4,6 +4,7 @@ import subprocess
 
 from celery.utils.log import get_task_logger
 from firexapp.broker_manager.broker_factory import BrokerFactory
+from firexapp.common import silent_mkdir
 from firexapp.fileregistry import FileRegistry
 from firexapp.submit.uid import Uid
 from firexapp.submit.tracking_service import TrackingService
@@ -26,11 +27,15 @@ class RecorderLauncher(TrackingService):
 
     def start(self, args, uid=None, **kwargs)->{}:
         # assemble startup cmd
-        cmd = "firex_recorder"
         if args.recording:
-            cmd += ' --destination ' + args.recording
+            dest = args.recording
         else:
-            cmd += ' --destination ' + FileRegistry().get_file(DEFAULT_RECORDER_DEST_REGISTRY_KEY, uid.logs_dir)
+            dest = FileRegistry().get_file(DEFAULT_RECORDER_DEST_REGISTRY_KEY, uid.logs_dir)
+        if not os.path.isdir(os.path.dirname(dest)):
+            silent_mkdir(os.path.dirname(dest))
+
+        cmd = "firex_recorder"
+        cmd += ' --destination ' + dest
         cmd += ' --broker ' + BrokerFactory.get_broker_url()
         cmd += " &"
 
