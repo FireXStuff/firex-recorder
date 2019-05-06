@@ -5,6 +5,7 @@ import subprocess
 from celery.utils.log import get_task_logger
 from firexapp.fileregistry import FileRegistry
 from firexapp.submit.uid import Uid
+from firexapp.submit.tracking_service import TrackingService
 
 
 logger = get_task_logger(__name__)
