@@ -36,6 +36,7 @@ class Recoder:
                 raise
             except Exception as e:
                 if self.root_completed:
+                    print("Shutting down on broker and root task completion")
                     return
 
                 print(e)
