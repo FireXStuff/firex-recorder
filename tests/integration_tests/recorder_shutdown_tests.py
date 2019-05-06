@@ -26,7 +26,7 @@ class RecorderShutdownOnNormalCompletion(FlowTestConfiguration):
                 if line.strip().endswith("Shutting down on broker and root task completion"):
                     break
             else:
-                assert False, ""
+                assert False, "Recorder did not log it's own shut down"
 
     def assert_expected_return_code(self, ret_value):
         assert_is_good_run(ret_value)
