@@ -12,4 +12,7 @@ setup(name='firex_recorder',
       entry_points={
           'console_scripts': ['firex_recorder = firex_recorder.__main__:main', ],
           'firex_tracking_service': ['recorder_launcher = firex_recorder.launcher:RecorderLauncher', ]
-      },)
+      },
+      install_requires=[
+          "firexapp",
+      ],)
