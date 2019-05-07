@@ -74,9 +74,13 @@ def main():
                         default=60*60*24*2)
     args = parser.parse_args()
 
+    def exit_on_timeout():
+        print("Exiting on timeout")
+        sys.exit(0)
     rec = Recoder(args.broker, args.destination)
-    t = Timer(args.timeout, lambda: sys.exit(0))
+    t = Timer(args.timeout, exit_on_timeout)
     try:
+        t.start()
         rec.record()
         t.cancel()
     finally:

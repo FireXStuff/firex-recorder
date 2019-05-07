@@ -21,6 +21,7 @@ FileRegistry().register_file(DEFAULT_RECORDER_DEST_REGISTRY_KEY, os.path.join(Ui
 
 
 class RecorderLauncher(TrackingService):
+    default_timeout = None
 
     def extra_cli_arguments(self, arg_parser):
         arg_parser.add_argument('--recording', help='A file to record celery events', default=None)
@@ -37,6 +38,8 @@ class RecorderLauncher(TrackingService):
         cmd = "firex_recorder"
         cmd += ' --destination ' + dest
         cmd += ' --broker ' + BrokerFactory.get_broker_url()
+        if self.default_timeout:
+            cmd += ' --timeout ' + str(self.default_timeout)
         cmd += " &"
 
         # start the recording service
